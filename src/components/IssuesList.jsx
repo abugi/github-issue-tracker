@@ -6,10 +6,10 @@ import fetchWithError from "../helpers/fetchWithError";
 export default function IssuesList({ labels, status }) {
   const issuesQuery = useQuery(
     ["issues", { labels, status }],
-    () => {
+    ({signal}) => {
       const statusString = status ? `&status=${status}` : "";
       const labelsString = labels.map((label) => `labels[]=${label}`).join("&");
-      return fetchWithError(`/api/issues?${labelsString}${statusString}`);
+      return fetchWithError(`/api/issues?${labelsString}${statusString}`, {signal});
     },
     {
       staleTime: 1000 * 60,
